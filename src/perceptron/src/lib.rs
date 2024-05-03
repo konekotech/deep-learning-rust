@@ -1,5 +1,10 @@
 pub mod perceptron;
 
+pub fn hello(){
+    println!("Hello, world!");
+}
+
+
 //use ndarray::prelude::*;
 //
 // fn main() {

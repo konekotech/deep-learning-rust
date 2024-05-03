@@ -1,16 +1,11 @@
 pub mod normal {
-    use ndarray::{Array, Array1, Array2, Dimension};
-    // Array1<f64> に対するstep関数
-    pub fn step_function(x: Array1<f64>) -> Array1<f64> {
-        let mut y = Array1::zeros(x.len());
-        for i in 0..x.len() {
-            if x[i] > 0.0 {
-                y[i] = 1.0;
-            } else {
-                y[i] = 0.0;
-            }
-        }
-        return y;
+    use ndarray::{Array, Dimension};
+
+    /// # Arguments
+    /// * `x` - A 1D array of f64
+    pub fn step_function<D>(x: Array<f64, D>) -> Array<f64, D>
+    where D: Dimension{
+        return x.map(|x| if *x > 0.0 {1.0} else {0.0});
     }
 
     // 一般のArrayに対するsigmoid関数

@@ -1,6 +1,6 @@
 use std::error::Error;
 use std::fs::File;
-use ndarray::{arr1, arr2, OwnedRepr};
+use ndarray::{arr1, arr2};
 use neural_network::activation_functions::normal::sigmoid;
 use neural_network::activation_functions::output::softmax;
 use mnist::*;
