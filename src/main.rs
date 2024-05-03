@@ -1,4 +1,4 @@
-use neural_network::nnet_functions::activation::sigmoid;
+use neural_network::activation_functions::normal::sigmoid;
 use perceptron::perceptron::perceptron::add;
 
 

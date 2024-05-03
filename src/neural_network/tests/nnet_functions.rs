@@ -1,8 +1,8 @@
 use std::error::Error;
 use std::fs::File;
 use ndarray::{arr1, arr2, OwnedRepr};
-use neural_network::nnet_functions::activation::sigmoid;
-use neural_network::nnet_functions::output_activation::softmax;
+use neural_network::activation_functions::normal::sigmoid;
+use neural_network::activation_functions::output::softmax;
 use mnist::*;
 use ndarray::prelude::*;
 use csv::{ReaderBuilder};
@@ -76,7 +76,6 @@ fn read_csv_to_array1(file_name: String) -> Result<Array1<f64>, Box<dyn Error>> 
 }
 
 fn read_csv_to_array2(file_name: String) -> Result<Array2<f64>, Box<dyn Error>> {
-    //Array2に変換する
     let mut reader = ReaderBuilder::new().has_headers(false).from_reader(File::open(file_name).unwrap());
     let array: Array2<f64> = reader.deserialize_array2_dynamic()?;
     Ok(array)

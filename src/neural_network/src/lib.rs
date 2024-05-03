@@ -1,2 +1,2 @@
-pub mod nnet_functions;
+pub mod activation_functions;
 
