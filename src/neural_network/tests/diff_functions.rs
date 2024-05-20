@@ -1,5 +1,5 @@
 use ndarray::{arr1, Array, Ix1, Ix2};
-use neural_network::diff_functions::diff::{gradient_descent, numerical_diff, numerical_gradient};
+use neural_network::diff_functions::diff::{gradient_descent, numerical_diff, numerical_gradient1};
 
 
 #[test]
@@ -16,7 +16,7 @@ fn test_numerical_diff() {
 fn test_numerical_gradient() {
     let f = |x: &Array<f64, Ix1>| x[0].powi(2) + x[1].powi(2);
     let x = arr1(&[3.0, 4.0]);
-    let result = numerical_gradient(f, &x);
+    let result = numerical_gradient1(f, &x);
     let expected = arr1(&[6.0, 8.0]);
     //誤差が0.00001以内であればOKにする
     assert!((result - expected).iter().all(|&x| x.abs() < 0.00001));

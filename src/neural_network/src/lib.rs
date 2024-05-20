@@ -1,5 +1,9 @@
 pub mod activation_functions;
 mod error_functions;
 pub mod diff_functions;
-mod net;
+pub mod net;
+pub mod mnist;
+mod back_propagation;
+
+
 

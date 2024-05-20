@@ -14,7 +14,7 @@ pub mod normal{
     /// # Arguments
     /// * `y` - A 1D array of f64
     /// * `t` - A 1D array of f64
-    pub fn cross_entropy_error<D>(y: Array<f64, D>, t: Array<f64, D>) -> f64
+    pub fn cross_entropy_error<D>(y: &Array<f64, D>, t: &Array<f64, D>) -> f64
     where D: Dimension{
         let delta = 1e-7;
         let y = y.map(|x| x + delta);
