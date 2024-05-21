@@ -13,8 +13,8 @@ pub mod diff {
     /// # Arguments
     /// * `f` - A function that takes a 1D array of f64 and returns a f64
     /// * `x` - A 1D array of f64
-    pub fn numerical_gradient1<F>(f: F, x: &Array<f64, Ix1>) -> Array<f64, Ix1>
-        where F: Fn(&Array<f64, Ix1>) -> f64 {
+    pub fn numerical_gradient1<F>(mut f: F, x: &Array<f64, Ix1>) -> Array<f64, Ix1>
+        where F: FnMut(&Array<f64, Ix1>) -> f64 {
         let h = 1e-4;
         let mut x = x.to_owned();
         let mut grad = Array::zeros(x.dim().clone());
@@ -34,8 +34,8 @@ pub mod diff {
     /// * `f` - A function that takes a 2D array of f64 and returns a f64
     /// * `x` - A 2D array of f64
 
-    pub fn numerical_gradient2<F>(f: F, x: &Array<f64, Ix2>) -> Array<f64, Ix2>
-        where F: Fn(&Array<f64, Ix2>) -> f64 {
+    pub fn numerical_gradient2<F>(mut f: F, x: &Array<f64, Ix2>) -> Array<f64, Ix2>
+        where F: FnMut(&Array<f64, Ix2>) -> f64 {
         let h = 1e-4;
         let mut x = x.to_owned();
         let mut grad = Array::zeros(x.dim().clone());

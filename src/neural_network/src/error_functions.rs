@@ -1,5 +1,5 @@
 pub mod normal{
-    use ndarray::{Array, Dimension};
+    use ndarray::{Array, Dimension, Ix1};
 
     /// # Arguments
     /// * `y` - A 1D array of f64
@@ -19,6 +19,6 @@ pub mod normal{
         let delta = 1e-7;
         let y = y.map(|x| x + delta);
         let sum = y.iter().zip(t.iter()).fold(0.0, |acc, (&y, &t)| acc - t * y.ln());
-        return sum;
+        return sum / y.len() as f64;
     }
 }

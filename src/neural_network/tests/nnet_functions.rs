@@ -19,12 +19,12 @@ fn test_nnet() {
     println!("{:?}", w1.shape());
     println!("{:?}", b1.shape());
     let a1 = x.dot(&w1) + &b1;
-    let z1 = sigmoid(a1);
+    let z1 = sigmoid(&a1);
     println!("{:?}", z1);
     let w2 = arr2(&[[0.1, 0.4], [0.2, 0.5], [0.3, 0.6]]);
     let b2 = arr1(&[0.1, 0.2]);
     let a2 = z1.dot(&w2) + &b2;
-    let z2 = sigmoid(a2);
+    let z2 = sigmoid(&a2);
     println!("{:?}", z2);
     let w3 = arr2(&[[0.1, 0.3], [0.2, 0.4]]);
     let b3 = arr1(&[0.1, 0.2]);
@@ -32,7 +32,7 @@ fn test_nnet() {
     let y = a3;
     println!("{:?}", y);
     let a = arr1(&[1010.0, 1000.0, 990.0]);
-    println!("{:?}", softmax(a));
+    println!("{:?}", softmax(&a));
 }
 
 fn read_mnist() -> (Array<f64, Ix3>, Array2<f64>, Array<f64, Ix3>, Array2<f64>) {
@@ -116,11 +116,11 @@ fn test_mnist_learning() {
     let mut accuracy = 0;
     for (i, row) in row_arrays.iter().enumerate() {
         let a1 = row.dot(&w1) + &b1;
-        let z1 = sigmoid(a1);
+        let z1 = sigmoid(&a1);
         let a2 = z1.dot(&w2) + &b2;
-        let z2 = sigmoid(a2);
+        let z2 = sigmoid(&a2);
         let a3 = z2.dot(&w3) + &b3;
-        let y = softmax(a3);
+        let y = softmax(&a3);
         // 最大値とそのインデックスを求める
         let (max_value, max_index) = y.iter().enumerate().fold((f64::NEG_INFINITY, 0), |acc, (index, &value)| {
             if value > acc.0 {
@@ -148,11 +148,11 @@ fn test_learning_with_batch(){
         let x_batch = x_test.slice(s![i*batch_size..(i+1)*batch_size, ..]);
         let t_batch = t_test.slice(s![i*batch_size..(i+1)*batch_size, ..]);
         let a1 = x_batch.dot(&w1) + &b1;
-        let z1 = sigmoid(a1);
+        let z1 = sigmoid(&a1);
         let a2 = z1.dot(&w2) + &b2;
-        let z2 = sigmoid(a2);
+        let z2 = sigmoid(&a2);
         let a3 = z2.dot(&w3) + &b3;
-        let y = softmax(a3);
+        let y = softmax(&a3);
         // 最大値とそのインデックスを求める
         for (j, y_row) in y.outer_iter().enumerate() {
             let (max_value, max_index) = y_row.iter().enumerate().fold((f64::NEG_INFINITY, 0), |acc, (index, &value)| {

@@ -9,7 +9,7 @@ use ndarray_rand::rand::thread_rng;
 
 #[test]
 fn test_nnet() {
-    let net = TwoLayerNet::new(784, 100, 10, 0.01);
+    let mut net = TwoLayerNet::new(784, 100, 10, 0.01);
     //shapeの確認
     assert_eq!(net.w1.shape(), &[784, 100]);
     assert_eq!(net.b1.shape(), &[100]);
@@ -17,7 +17,7 @@ fn test_nnet() {
     assert_eq!(net.b2.shape(), &[10]);
 
     let x =  Array::<f64, Ix2>::random((100, 784), Uniform::new(0., 1.));
-    let y = TwoLayerNet::predict(&net, &x);
+    let y = TwoLayerNet::predict(&mut net, &x);
     println!("{:?}", y);
     let t =  Array::<f64, Ix2>::random((100,10), Uniform::new(0., 1.));
 }
@@ -27,15 +27,14 @@ fn test_mini_batch_with_numerical_gradient(){
     // 死ぬほど遅い
 
     let (x_train, t_train, x_test, t_test) = load_mnist();
-    let itrs_num = 10;
+    let itrs_num = 100;
     let train_size = x_train.shape()[0];
-    let batch_size = 10;
+    let batch_size = 100;
     let learning_rate = 0.1;
 
     let mut network = TwoLayerNet::new(784, 50, 10, 0.01);
 
     for i in 0..itrs_num {
-
         // ランダムなインデックスを生成
         let mut rng = thread_rng();
         let batch_mask: Vec<usize> = (0..train_size).collect();
@@ -49,11 +48,14 @@ fn test_mini_batch_with_numerical_gradient(){
             x_batch.slice_mut(s![i, ..]).assign(&x_train.slice(s![j, ..]));
             t_batch.slice_mut(s![i, ..]).assign(&t_train.slice(s![j, ..]));
         }
-        let grad = network.numerical_gradient(&x_batch, &t_batch);
-        network.w1 = &network.w1 - learning_rate * &grad.w1;
-        network.b1 = &network.b1 - learning_rate * &grad.b1;
-        network.w2 = &network.w2 - learning_rate * &grad.w2;
-        network.b2 = &network.b2 - learning_rate * &grad.b2;
+
+        //let grad = network.numerical_gradient(&x_batch, &t_batch);
+        let grad = network.gradient(&x_batch, &t_batch);
+        println!("{:?}", grad.b1);
+        network.w1 = network.w1 - learning_rate * grad.w1;
+        network.b1 = network.b1 - learning_rate * grad.b1;
+        network.w2 = network.w2 - learning_rate * grad.w2;
+        network.b2 = network.b2 - learning_rate * grad.b2;
         let loss = network.loss(&x_batch, &t_batch);
         println!("loss is {:?}", loss);
     }

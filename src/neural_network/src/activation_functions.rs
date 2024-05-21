@@ -9,7 +9,7 @@ pub mod normal {
     }
 
     // 一般のArrayに対するsigmoid関数
-    pub fn sigmoid<D>(x: Array<f64, D>) -> Array<f64, D>
+    pub fn sigmoid<D>(x: &Array<f64, D>) -> Array<f64, D>
         where
             D: Dimension,
     {
@@ -17,7 +17,7 @@ pub mod normal {
     }
 
     // 一般のArrayに対するReLU関数
-    pub fn relu<D>(x: Array<f64, D>) -> Array<f64, D>
+    pub fn relu<D>(x: &Array<f64, D>) -> Array<f64, D>
         where
             D: Dimension,{
         return x.map(|x| 0.0_f64.max(*x));
@@ -25,15 +25,17 @@ pub mod normal {
 }
 
 pub mod output {
-    use ndarray::{Array, Dimension};
+    use ndarray::{Array, Dimension, Ix2};
 
     // 一般のArrayに対するidentity関数
-    pub fn identity_function<D>(x: Array<f64, D>) -> Array<f64, D> {
-        return x;
+    pub fn identity_function<D>(x: Array<f64, D>) -> Array<f64, D>
+    where
+    D: Dimension{
+        return x.clone();
     }
 
     // 一般のArrayに対するsoftmax関数（overflow対策済み）
-    pub fn softmax<D>(x: Array<f64, D>) -> Array<f64, D>
+    pub fn softmax<D>(x: &Array<f64, D>) -> Array<f64, D>
         where
             D: Dimension,{
         //xの要素の最大値を求める
